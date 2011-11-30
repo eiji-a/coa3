@@ -1,0 +1,47 @@
+<%= link_to '更新', edit_tag_path(@tag) %> |
+<%= link_to '一覧', tags_path %>
+
+<hr>
+
+<table width="100%">
+  <tr>
+    <th>タグ名(エリアス)</th>
+    <th width="80px">公開設定</th>
+  </tr>
+  <tr>
+    <td><%=h @tag.name %></td>
+    <td>
+      <% if @tag.disclosure_id == nil %>
+      非公開
+      <% else %>
+      <%= @tag.disclosure.name %>
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+<% if @tag.contents.size > 0 %>
+<br />
+<b>コンテンツ</b>
+<table width="100%">
+  <tr>
+    <th width="35px">操作</th>
+    <th>タイトル</th>
+    <th width="100px">MIMEタイプ</th>
+    <th width="100px">最終アクセス</th>
+    <th width="50px">サイズ</th>
+  </tr>
+  <% @tag.contents.each do |content| %>
+  <tr>
+    <td>
+      <%= link_to image_tag('unlink12.gif'), :action => 'unlink',
+      :id => @tag, :content_id => content.id %>
+    </td>
+    <td><%= link_to h(content.title), content %></td>
+    <td><%= content.mimetype %></td>
+    <td><%= content.last_access %></td>
+    <td align="right"><%=h content.size_with_unit %></td>
+  </tr>
+  <% end %>
+</table>
+<% end %>

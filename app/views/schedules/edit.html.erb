@@ -1,0 +1,43 @@
+
+<% form_for(@schedule) do |f| %>
+  <%= f.error_messages %>
+  <%= f.hidden_field :content_id %>
+
+  <table>
+    <tr>
+      <th>コンテンツ</th>
+      <td><%= link_to @schedule.content.title, :controller => 'contents', :action => 'show', :id => @schedule.content.id %></td>
+    </tr>
+    <tr>
+      <th width="80px">予定/記録</th>
+      <td><%= f.select :sctype,
+              [['予定', Schedule::PLAN], ['実績', Schedule::RECORD]] %></td>
+    </tr>
+    <tr>
+      <th>件名</th>
+      <td><%= f.text_field :subject %></td>
+    </tr>
+    <tr>
+      <th>日時</th>
+      <td>
+        開始
+        <%= f.text_field :start_date, :value => @schedule.start_date.strftime("%Y%m%d"), :size => 10 %>
+        <%= f.text_field :start_time, :size => 4 %> ～
+        終了
+        <% enddate = if @schedule.end_date != nil then @schedule.end_date.strftime("%Y%m%d") else '' end %>
+        <%= f.text_field :end_date, :value => enddate, :size => 10 %>
+        <%= f.text_field :end_time, :size => 4 %>
+      </td>
+    </tr>
+    <tr>
+      <th>場所</th>
+      <td><%= f.text_field :place %></td>
+    </tr>
+    <tr>
+      <th>通知時間</th>
+      <td><%= f.text_field :notice_time, :size => 5 %>分前</td>
+    </tr>
+  </table>
+  <%= f.submit '更新' %>
+
+<% end %>

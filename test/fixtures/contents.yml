@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  folder_id: 1
+  title: MyString
+  mimetype: MyString
+  metainfo: MyText
+  path: MyString
+  size: 1
+  storagetype: 1
+  accessed_at: 2010-03-26 01:06:00
+
+two:
+  user_id: 1
+  folder_id: 1
+  title: MyString
+  mimetype: MyString
+  metainfo: MyText
+  path: MyString
+  size: 1
+  storagetype: 1
+  accessed_at: 2010-03-26 01:06:00

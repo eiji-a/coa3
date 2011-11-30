@@ -1,0 +1,122 @@
+<% if @content.folder_id != nil &&
+   @content.folder.disclosure.privilege(session[:user_id]) >= Grant::BROWSABLE %>
+  <%= link_to 'フォルダ', @content.folder %> |
+<% end %>
+<% if @priv >= Grant::LINKABLE %>
+  <%= link_to '添付', :action => 'new', :parent_id => @content.id %> |
+  <%= link_to 'スケジュール作成', :controller => 'schedules',
+  :action => 'new' %> |
+<% end %>
+<% if @priv >= Grant::EDITABLE %>
+  <%= link_to '編集', edit_content_path(@content) %> |
+  <%= link_to '参照', :action => 'refer', :id => @content.id %> |
+<% end %>
+<% if @priv >= Grant::SHARABLE %>
+  <%= link_to '移動', :action => 'select_folder', :id => @content.id %> |
+  <%= link_to '削除', @content, :confirm => '本当に削除してよいですか?',
+  :method => :delete %> |
+  <%= link_to 'タグ', :action => 'tag', :id => @content.id %> |
+<% end %>
+<hr>
+
+<% if @content.storagetype == Content::FILE %>
+  <%= render(:partial => @type1 + '_show', :locals => {:content => @content}) %>
+<% else %>
+  <%= render(:partial => 'url_show', :locals => {:content => @content}) %>
+<% end %>
+
+<table width="100%">
+  <% if @content.schedules.size > 0 %>
+  <tr>
+    <th>スケジュール</th>
+    <td>
+      <table border="0" width="100%">
+        <tr>
+          <th width="45px"></th>
+          <th width="210px">日時</th>
+          <th>件名</th>
+          <th width="200px">場所</th>
+        </tr>
+        <%= render(:partial => 'schedule', :collection => @content.schedules) %>
+      </table>
+    </td>
+  </tr>
+  <% end %>
+
+  <% if @content.parents.size > 0 %>
+  <tr>
+    <th>参照</th>
+    <td>
+      <table border="0" width="100%">
+        <tr>
+          <th width="35px">操作</th>
+          <th>タイトル</th>
+          <th width="150px">フォルダ</th>
+          <th width="80px">作成日</th>
+        </tr>
+        <%= render(:partial => 'parent', :collection => @content.parents) %>
+      </table>
+    </td>
+  </tr>
+  <% end %>
+
+  <% if @content.children.size > 0 %>
+  <tr>
+    <th>添付</th>
+    <td>
+      <table border="0" width="100%">
+        <tr>
+          <th width="35px">操作</th>
+          <th>タイトル</th>
+          <th width="150px">フォルダ</th>
+          <th width="80px">作成日</th>
+        </tr>
+        <%= render(:partial => 'child', :collection => @content.children) %>
+      </table>
+    </td>
+  </tr>
+  <% end %>
+
+  <% if @content.tags.size > 0 %>
+  <tr>
+    <th>タグ</th>
+    <td>
+      <% @content.tags.each do |t| %>
+        <%= link_to t.first_name, :controller => 'tags', :action => 'show',
+        :id => t.id %>
+      <% end %>
+    </td>
+  </tr>
+  <% end %>
+
+  <tr>
+    <th>詳細情報</th>
+    <td>
+      <table border="0" width="100%">
+        <tr>
+          <td width="50px">
+            <%= Grant::PRIVS[@priv] %>
+          </td>
+          <td>
+            <%=h Content::STORAGE[@content.storagetype] %>
+            (<%=h @content.size_with_unit %>) : <%=h @content.mimetype %>
+          </td>
+          <td>
+            <b>作成:</b>
+            <%=h @content.created_at.getlocal.strftime("%Y/%m/%d %H:%M:%S") %>,
+            <b>アクセス:</b>
+            <%=h @content.accessed_at.getlocal.strftime("%Y/%m/%d %H:%M:%S") %>
+          </td>
+        </tr>
+        <tr>
+          <th>メタ情報</th>
+          <td><%=h @content.metainfo %></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+</table>
+
+
+

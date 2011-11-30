@@ -1,0 +1,15 @@
+<div align="center">
+  <% form_tag do %>
+  <table>
+    <tr>
+      <th width="80px">ユーザID</th>
+      <td><%= text_field_tag :userid, params[:userid] %></td>
+    </tr>
+    <tr>
+      <th>パスワード</th>
+      <td><%= password_field_tag :password, params[:password] %></td>
+    </tr>
+  </table>
+  <%= submit_tag 'ログイン' %>
+  <% end %>
+</div>

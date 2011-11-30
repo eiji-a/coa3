@@ -1,0 +1,20 @@
+<%= link_to '表示', :action => 'show', :id => @content.id %> |
+<hr>
+
+<% form_for(:content, @content, :url => {:action => 'update_tag'}) do |f| %>
+<%= hidden_field_tag :id, @content.id %>
+
+<table border="0" width="100%">
+  <tr>
+    <th width="50px">タグ</th>
+    <td><%= text_field_tag :tags, @tagnames.join(' '),
+      :size => 120 %></td>
+  </tr>
+</table>
+
+<p>
+  <%= f.submit '更新' %>
+</p>
+<% end %>
+
+<%= render(:partial => 'body') %>

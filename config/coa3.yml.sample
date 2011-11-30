@@ -1,0 +1,4 @@
+storage_path: /home/eiji/work/coa3_storage
+searcher_db:  /home/eiji/work/coa3_storage/estdb
+calendar_manager: calendar
+

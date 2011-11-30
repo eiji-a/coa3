@@ -1,0 +1,46 @@
+<%= link_to '一覧', folders_path %> |
+<% if @priv >= Grant::EDITABLE %>
+  <%= link_to '編集', edit_folder_path(@folder) %> |
+  <%= link_to 'コンテンツ作成', :controller => 'contents', :action => 'new' %>
+<% end %>
+<hr>
+
+<% form_tag :action => 'move' do %>
+  <%= collection_select :folder, :id, @folders, :id, :name %>
+  <%= submit_tag '移動', :disable_with => '実行中です・・・',
+    :confirm => '本当に移動してよいですか?' %>
+  <p>
+  <table width="100%">
+    <tr>
+      <th width="50px">操作</th>
+      <th>タイトル</th>
+      <th width="80px">公開(権限)</th>
+      <th width="80px">最終アクセス</th>
+      <th width="50px">サイズ</th>
+    </tr>
+    <% @contents.each do |content| %>
+    <% next if content.disclosure.privilege(session[:user_id]) < Grant::BROWSABLE %>
+    <tr>
+      <td>
+	<% if content.sharable?(@login.id) %>
+          <%= check_box_tag "select[#{content.id}]", 'yes', false %>
+          <%= link_to (image_tag 'delete12.gif'), content,
+	      :confirm => '本当に削除してよいですか?', :method => :delete %>
+	<% end %>
+      </td>
+      <td><%= link_to h(content.title), content %></td>
+      <td>
+        <% if content.user_id == session[:user_id] %>
+          <%= content.disclosure.name %>
+        <% else %>
+          (<%= Grant::PRIVS[content.disclosure.privilege(session[:user_id])] %>)
+        <% end %>
+      </td>
+      <td><%= content.last_access %></td>
+      <td align="right"><%=h content.size_with_unit %></td>
+    </tr>
+    <% end %>
+  </table>
+<% end %>
+</p>
+

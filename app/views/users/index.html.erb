@@ -1,0 +1,21 @@
+<%= link_to 'ユーザ作成', new_user_path %>
+<hr>
+<table>
+  <tr>
+    <th>ユーザID</th>
+    <th>利用者名</th>
+    <th>権限</th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr class="<%= cycle('list-line-odd', 'list-line-even') %>">
+    <td><%= link_to h(user.userid), edit_user_path(user) %></td>
+    <td><%=h user.name %></td>
+    <td><%= User::PRIV[user.priv] %></td>
+    <td><%= link_to '削除', user, :confirm => '本当に削除してよいですか?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+

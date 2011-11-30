@@ -1,0 +1,7 @@
+<%= link_to '表示', :action => 'show' %>
+<hr>
+
+<% form_for @profile do |f| %>
+  メールアドレス: <%= f.text_field :mail_address, :size => 40 %><br />
+  <%= f.submit '更新' %>
+<% end %>

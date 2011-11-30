@@ -1,0 +1,56 @@
+
+<% form_for(@schedule) do |f| %>
+  <%= f.error_messages %>
+  <%= f.hidden_field :content_id %>
+
+  <table>
+    <% if @content %>
+    <tr>
+      <th>コンテンツ</th>
+      <td><%= @content.title %> (<%= @content.mimetype %>)</td>
+    </tr>
+    <% end %>
+    <tr>
+      <th width="80px">予定/記録</th>
+      <td><%= f.select :sctype,
+              [['予定', Schedule::PLAN], ['実績', Schedule::RECORD]] %></td>
+    </tr>
+    <tr>
+      <th>件名</th>
+      <td><%= f.text_field :subject %></td>
+    </tr>
+    <tr>
+      <th>日時</th>
+      <td>
+        開始
+        <%= f.text_field :start_date, :value => @today, :size => 10 %>
+        <%= f.text_field :start_time, :size => 4 %> ～
+        終了
+        <%= f.text_field :end_date, :size => 10 %>
+        <%= f.text_field :end_time, :size => 4 %>
+      </td>
+    </tr>
+    <tr>
+      <th>場所</th>
+      <td><%= f.text_field :place %></td>
+    </tr>
+    <tr>
+      <th>通知時間</th>
+      <td><%= f.text_field :notice_time, :size => 5 %>分前</td>
+    </tr>
+    <% if @schedule.content_id == nil %>
+    <tr>
+      <th>公開設定</th>
+      <td>
+        <%= select :disclosure, :id, Disclosure.list(@login.id) %>
+      </td>
+    <tr>
+      <th>詳細</th>
+      <td><%= text_area_tag 'detail', '', :rows => 10, :cols => 80 %></td>
+    </tr>    
+    <% end %>
+  </table>
+  <%= f.submit '登録' %>
+
+<% end %>
+

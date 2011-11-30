@@ -1,0 +1,41 @@
+<%= link_to '一覧', users_path %>
+
+<hr>
+<h1>ユーザ管理</h1>
+
+<% form_for(@user) do |f| %>
+  <%= f.error_messages %>
+
+  <fieldset>
+    <div>
+      ユーザID:
+      <%= f.text_field :userid, :size=> 40 %>
+    </div>
+
+    <div>
+      利用者名:
+      <%= f.text_field :name, :size => 80 %>
+    </div>
+
+    <div>
+      パスワード:
+      <%= f.password_field :password, :size => 40 %>
+    </div>
+
+    <div>
+      パスワード(確認):
+      <%= f.password_field :password_confirmation, :size => 40 %>
+    </div>
+
+    <div>
+      権限:
+      <%= f.select :priv, User.privs %>
+    </div>
+
+    <div>
+      <%= f.submit '更新', :class => 'submit' %>
+    </div>
+
+  </fieldset>
+<% end %>
+

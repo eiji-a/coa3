@@ -1,0 +1,38 @@
+<p>
+  <b>Subject:</b>
+  <%=h @schedule.subject %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%=h @schedule.start_date %>
+</p>
+
+<p>
+  <b>Start time:</b>
+  <%=h @schedule.start_time %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%=h @schedule.end_date %>
+</p>
+
+<p>
+  <b>End time:</b>
+  <%=h @schedule.end_time %>
+</p>
+
+<p>
+  <b>Place:</b>
+  <%=h @schedule.place %>
+</p>
+
+<p>
+  <b>Content:</b>
+  <%=h @schedule.content.title %>
+</p>
+
+
+<%= link_to 'Edit', edit_schedule_path(@schedule) %> |
+<%= link_to 'Back', schedules_path %>

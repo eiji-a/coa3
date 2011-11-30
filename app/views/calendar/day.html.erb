@@ -1,0 +1,60 @@
+<table border="0">
+  <tr>
+    <td valign="bottom">
+      <%= link_to image_tag('larrow12.gif'), :id => @pdate.strftime("%Y%m%d") %>
+      <%= link_to image_tag('rarrow12.gif'), :id => @ndate.strftime("%Y%m%d") %>
+    </td>
+    <td valign="bottom" width="300px" align="right">
+      <span class="day_year_month">
+        <%= link_to @day.year, :action => 'year', :id => @day.year %>
+        .
+        <%= link_to @day.month, :action => 'month', :id => @day.strftime("%Y%m") %>
+        .
+      </span>
+    </td>
+    <td valign="bottom" align="center" width="120px">
+      <span class="day_day<%= @day.type %>"><%= @day.day %></span>
+    </td>
+    <td valign="bottom" width="100px">
+      <span class="day_wday<%= @day.type %>">
+        <%= Calendar::WDAY[@day.wday] + '曜日' %><br />
+        <%= Calendar::WDAY_E[@day.wday] %>
+      </span>
+    </td>
+    <td>
+      <% @day.holiday.each do |h| %>
+      <span class="day_holiday"><%= h.subject %></span><br />
+      <% end %>
+    </td>
+  </tr>
+</table>
+<hr>
+
+<div id="plan_list">
+<b>予定/記録 :  </b>
+<font size="2">
+  <%= link_to (image_tag 'plus09.gif') + ' 追加',
+      :controller => 'schedules', :action => 'new', :date => @day.to_s %>
+</font>
+
+<table border="0" width="100%">
+  <tr>
+    <th width="45px"></th>
+    <th width="150px">時刻</th>
+    <th>件名</th>
+    <th width="200px">場所</th>
+  </tr>
+  <%= render(:partial => 'schedule', :collection => @day.schedule) %>
+</table>
+
+</div>
+
+<h4>コンテンツ</h4>
+<table border="0" width="100%">
+  <tr>
+    <th width="38px"></th>
+    <th>タイトル</th>
+  </tr>
+  <%= render(:partial => 'content', :collection => @contents) %>
+</table>
+

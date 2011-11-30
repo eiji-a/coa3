@@ -1,0 +1,48 @@
+<%= link_to 'フォルダ作成', new_folder_path %>
+<hr>
+
+<table width="100%">
+  <tr>
+    <th width="50px">操作</th>
+    <th>フォルダ</th>
+    <th width="80px">コンテンツ数</th>
+    <th width="120px">権限</th>
+    <th width="50px">表示順</th>
+    <th>表示</th>
+  </tr>
+
+<% @folders.each do |folder| %>
+  <tr>
+    <td>
+      <% if folder.owner?(@login.id) && folder.contents.size == 0 %>
+        <%= link_to (image_tag 'delete12.gif'), folder,
+	  :confirm => '本当に削除してよいですか?', :method => :delete %>
+      <% end %>
+    </td>
+    <td>
+      <span class="<%= if folder.editable?(@login.id) then 'mine'
+                       else 'others' end %>">
+        <%= link_to h(folder.name), folder %>
+      </span>
+    </td>
+    <td align="right"><%= folder.contents.size %></td>
+    <td>
+      <%= Grant::PRIVS[folder.disclosure.privilege(session[:user_id])] %>
+      <% if folder.user.id != @login.id %>
+        (<%= folder.user.name %>)
+      <% end %>
+    </td>
+    <td align="right"><%= folder.sequence %></td>
+    <td>
+      <% if folder.list_flag == 0 %>
+      <%= "表示" %>
+      <% else %>
+      <%= "非表示" %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+

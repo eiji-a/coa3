@@ -1,0 +1,6 @@
+<tr>
+  <td><%= link_to (image_tag 'edit12.gif'), :controller => 'contents', :action => 'edit', :id => content.id %>
+    <%= link_to (image_tag 'delete12.gif'), content,
+	:confirm => "コンテンツ'#{content.title}'を削除してよいですか?", :method => :delete %></td>
+  <td><%= link_to content.title, content %></td>
+</tr>

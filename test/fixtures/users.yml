@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  userid: MyString
+  name: MyString
+  hashed_password: MyString
+  salt: MyString
+  priv: 1
+
+two:
+  userid: MyString
+  name: MyString
+  hashed_password: MyString
+  salt: MyString
+  priv: 1

@@ -1,0 +1,16 @@
+<% startdate = schedule.start_date.strftime("%Y-%m-%d") %>
+<% sdate = schedule.start_date.strftime("%Y%m%d") %>
+<% enddate = if schedule.start_date == schedule.end_date || schedule.end_date == nil then '' else schedule.end_date.strftime("%Y-%m-%d") end %>
+<tr>
+  <td><%= link_to (image_tag 'edit12.gif'), :controller => 'schedules', :action => 'edit', :id => schedule.id %>
+    <%= link_to (image_tag 'delete12.gif'), schedule,
+	  :confirm => "スケジュール'#{schedule.subject}'を削除してよいですか?", :method => :delete %>
+    <% img = if schedule.sctype == Schedule::PLAN then 'schedule.gif' else 'record.gif' end %>
+    <%= image_tag img %>
+  </td>
+  <td><%= link_to startdate, :controller => 'calendar', :action => 'day',
+    :id => sdate %>
+    <%= " #{schedule.start_time} - #{enddate} #{schedule.end_time}" %></td>
+  <td><%= schedule.subject %></td>
+  <td><%= schedule.place %></td>
+</tr>

@@ -1,0 +1,22 @@
+<%= link_to '新規作成', new_disclosure_path %>
+<hr>
+
+<table>
+  <tr>
+    <th width="30px">操作</th>
+    <th width="300px">公開設定名</th>
+  </tr>
+
+<% @disclosures.each do |dis| %>
+  <tr>
+    <td>
+      <%= link_to (image_tag 'edit12.gif'), edit_disclosure_path(dis) %>
+      <%= link_to (image_tag 'delete12.gif'), dis,
+            :confirm => '本当に削除してよいですか?', :method => :delete %>
+    </td>
+    <td><%= link_to h(dis.name), dis %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

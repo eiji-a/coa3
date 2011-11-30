@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  list_flag: 1
+  user_id: 1
+
+two:
+  name: MyString
+  list_flag: 1
+  user_id: 1

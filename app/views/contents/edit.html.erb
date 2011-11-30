@@ -1,0 +1,57 @@
+<%= link_to '表示', @content %> |
+<%= link_to 'フォルダ', @folder %>
+
+<hr>
+
+<% form_for(@content,
+   :html => {:multipart => true}) do |f| %>
+  <%= f.error_messages %>
+
+  <%= f.hidden_field :user_id, :value => @content.user_id %>
+  <%= f.hidden_field :accessed_at, :value => Time.now %>
+  
+  <table width="100%">
+    <tr>
+      <th>タイトル</th>
+      <td><%= f.text_field :title, :size => 80 %></td>
+    </tr>
+    <tr>
+      <th>内容</th>
+      <td>
+        <%= f.file_field :upload_file %><br />
+        <% bd = '' %>
+        <% if @content.mime_type == 'text' then bd = @content.body end %>
+        <% if @content.mimetype =~ /^#{Coa3Application::MIMETYPE_BASE}/ then bd = @content.body end %>
+        <% if @content.storagetype == Content::URL then bd = @content.body end %>
+        <%= f.text_area :body, :value => bd, :rows => 20, :cols => 80 %>
+      </td>
+    </tr>
+    <tr>
+      <th>公開設定</th>
+      <td>
+        <%= f.select :disclosure_id, Disclosure.list(session[:user_id]) %>
+      </td>
+    </tr>
+    <tr>
+      <th>MIMEタイプ</th>
+      <td><%= f.text_field :mimetype %></td>
+    </tr>
+    <tr>
+      <th>フォルダ</th>
+      <td><%= f.select :folder_id, Folder.list(session[:user_id]) %></td>
+    </tr>
+    <tr>
+      <th>メタ情報</th>
+      <td><%= f.text_area :metainfo, :rows => 3 %></td>
+    </tr>
+    <tr>
+      <th>保管タイプ</th>
+      <td><%= f.select :storagetype, Content.storage %></td>
+    </tr>
+  </table>
+
+  <p>
+    <%= f.submit '更新' %>
+  </p>
+<% end %>
+

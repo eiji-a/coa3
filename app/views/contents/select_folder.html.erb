@@ -1,0 +1,17 @@
+<%= link_to '表示', :action => 'show', :id => @content.id %> |
+<hr>
+<table border="0">
+  <tr>
+    <th>フォルダ</th>
+  </tr>
+  <% @folders.each do |f| %>
+  <tr>
+    <td>
+      <%= link_to f.name, :action => 'change_folder', :id => @content.id,
+      :folder_id => f.id %>
+    </td>
+  </tr>
+  <% end %>
+</table>
+
+<%= render(:partial => 'body') %>

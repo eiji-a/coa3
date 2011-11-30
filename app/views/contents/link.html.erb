@@ -1,0 +1,25 @@
+
+<b>子コンテンツから親コンテンツへの参照を作成しますか?</b>
+<br />
+参照を作成せず、新規に添付するには
+<%= link_to 'こちら', :action => 'undo_refer', :id => @content %>へ。
+
+<br />
+<br />
+<% form_for(:content, @content, :url => {:action => 'create_link'}) do |f| %>
+<%= hidden_field_tag :parent_id, @content.id %>
+<%= hidden_field_tag :child_id, @child.id %>
+<table width="100%">
+  <tr>
+    <th width="100px">親コンテンツ</th>
+    <td><%= @content.title %></td>
+  </tr>
+  <tr>
+    <th>子コンテンツ</th>
+    <td><%= @child.title %></td>
+  </tr>
+</table>
+<p>
+  <%= f.submit '作成' %>
+</p>
+<% end %>

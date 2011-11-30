@@ -1,0 +1,21 @@
+<%= link_to '更新', edit_user_path(@user) %> |
+<%= link_to '一覧', users_path %>
+
+<hr>
+<h1>ユーザ管理</h1>
+<p>
+  <b>ユーザID:</b>
+  <%=h @user.userid %>
+</p>
+
+<p>
+  <b>氏名:</b>
+  <%=h @user.name %>
+</p>
+
+<p>
+  <b>権限:</b>
+  <%=h User::PRIV[@user.priv] %>
+</p>
+
+

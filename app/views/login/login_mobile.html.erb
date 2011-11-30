@@ -1,0 +1,5 @@
+<% form_tag do %>
+  ユーザID: <%= text_field_tag :userid, params[:userid] %><br/>
+  パスワード: <%= password_field_tag :password, params[:password] %><br/>
+  <%= submit_tag 'ログイン' %>
+<% end %>

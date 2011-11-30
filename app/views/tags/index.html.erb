@@ -1,0 +1,31 @@
+<%= link_to '新規作成', new_tag_path %>
+
+<hr>
+
+<table width="100%">
+  <tr>
+    <th width="35px">操作</th>
+    <th>タグ名</th>
+    <th width="200px">公開設定</th>
+    <th width="80px">コンテンツ数</th>
+  </tr>
+
+<% @tags.each do |tag| %>
+  <tr>
+    <td>
+      <%= link_to image_tag('edit12.gif'), edit_tag_path(tag) %>
+      <% if tag.contents.size == 0 %>
+        <%= link_to image_tag('delete12.gif'), tag, :confirm => '本当によろしいですか?', :method => :delete %>
+      <% end %>
+    </td>
+    <td><%= link_to tag.name, tag %></td>
+    <td>
+      <%= if tag.disclosure != nil then tag.disclosure.name else '非公開' end %>
+    </td>
+    <td align="right"><%= tag.contents.size %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+

@@ -1,0 +1,34 @@
+<%= link_to '表示', @folder %> |
+<%= link_to '一覧', folders_path %>
+<hr>
+
+<% form_for(@folder) do |f| %>
+  <%= f.error_messages %>
+  <%= f.hidden_field :user_id, :value => session[:user_id] %>
+
+  <table width="100%">
+    <tr>
+      <th width="100px">フォルダ名</th>
+      <td><%= f.text_field :name, :size => 50 %></td>
+    </tr>
+    <tr>
+      <th>公開設定</th>
+      <td>
+        <%= f.select :disclosure_id, Disclosure.list(session[:user_id]) %>
+      </td>
+    </tr>
+    <tr>
+      <th>表示順</th>
+      <td><%= f.text_field :sequence, :size => 8 %></td>
+    </tr>
+    <tr>
+      <th>表示フラグ</th>
+      <td><%= f.select :list_flag, Folder.listing %></td>
+    </tr>
+  </table>
+
+  <p>
+    <%= f.submit '更新' %>
+  </p>
+<% end %>
+

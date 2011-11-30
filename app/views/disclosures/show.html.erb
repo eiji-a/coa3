@@ -1,0 +1,45 @@
+<%= link_to '編集', edit_disclosure_path(@disclosure) %> |
+<%= link_to '一覧', disclosures_path %>
+<hr>
+
+<table>
+  <tr>
+    <th width="80px">公開設定名</th>
+    <td width="300px"><%=h @disclosure.name %></td>
+  </tr>
+</table>
+
+<br />
+<b>権限</b>
+<% form_for(:disclosure, @disclosure, :url => {:action => 'grant'}) do |f| %>
+  <%= hidden_field_tag :disclosure_id, @disclosure.id %>
+  <table width="100%">
+    <tr>
+      <th width="35px">操作</th>
+      <th>ユーザ</th>
+      <th width="200px">権限</th>
+    </tr>
+    <% @disclosure.grants.each do |g| %>
+    <tr>
+      <td>
+        <%= link_to (image_tag 'delete12.gif'), :action => 'strip',
+        :id => @disclosure.id, :grant_id => g.id %>
+      </td>
+      <td><%= g.user.name %></td>
+      <td><%= Grant::PRIVS[g.privilege] %></td>
+    </tr>
+    <% end %>
+    <tr>
+      <td></td>
+      <td><%= collection_select :user, :id, @users, :id, :name %></td>
+      <td>
+        <%= select :privilege, :code, Grant.list %>
+        <%= f.submit '付与' %>
+      </td>
+      </td>
+    </tr>
+  </table>
+
+<% end %>
+
+

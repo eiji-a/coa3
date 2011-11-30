@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  subject: MyString
+  start_date: 2010-04-25
+  start_time: MyString
+  end_date: 2010-04-25
+  end_time: MyString
+  place: MyString
+  content_id: 1
+
+two:
+  subject: MyString
+  start_date: 2010-04-25
+  start_time: MyString
+  end_date: 2010-04-25
+  end_time: MyString
+  place: MyString
+  content_id: 1

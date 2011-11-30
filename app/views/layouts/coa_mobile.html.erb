@@ -1,0 +1,67 @@
+<html>
+<head>
+  <% title = if @title != nil then @title else controller.action_name end %>
+  <title>COA3: <%= title %></title>
+</head>
+<body>
+  COA3: <%= title %>
+  <hr>
+  <% if @login %>
+  <%= @login.name %> さん<br />
+
+  <%= link_to "#{@_day.year}年", :controller => 'calendar',
+  :action => 'year', :id => @_year %>
+  <%= link_to "#{@_day.month}月", :controller => 'calendar',
+  :action => 'month', :id => (@_year * 100 + @_month) %>
+  <%= link_to "#{@_day.day}日", :controller => 'calendar',
+  :action => 'day',
+  :id => (@_day.year * 10000 + @_day.month * 100 + @_day.day) %>
+  (<%= Calendar::WDAY[@_day.wday] %>)
+  <br />
+
+  <% @_day.holiday.each do |h| %>
+  <%= h.subject %><br />
+  <% end %>
+
+  <% if @_day.schedule.size == 0 %>
+  本日の予定はありません。
+  <% else %>
+    <% @_day.schedule.each do |s| %>
+      <% cl = if s.content.sharable?(@login.id) then ''
+        else 'others' end %>
+      <%= s.start_time %>:
+      <%= link_to s.subject, :controller => 'contents',
+      :action => 'show', :id => s.content %>
+      <br />
+      (<%= s.place %>)
+    <% end %>
+  <% end %>
+  <hr>
+  <%= link_to 'ログアウト', :controller => 'login', :action => 'logout' %><br />
+  <%= link_to 'コンテンツ作成', :controller => 'contents', :action => 'new' %><br />
+  <%= link_to 'タグ管理', :controller => 'tags' %><br />
+  <%= link_to '公開設定', :controller => 'disclosures' %><br />
+
+  <%= link_to 'フォルダ', :controller => 'folders' %>:
+  <% if @folders_m != nil %>
+    <% @folders_m.each do |fol| %>
+      <% if @folder != nil && fol.id == @folder.id %>
+        <%= image_tag('rarrow8.gif') %>
+      <% end %>
+      <%= link_to fol.name, fol %>(<%= fol.contents.size %>
+    <% end %>
+  <% end %>
+
+  <%= link_to 'タグ', :controller => 'tags' %>:
+  <% if @tags != nil %>
+    <% @tags.each do |tag| %>
+      <%= link_to tag.first_name, :controller => 'tags',
+      :action => 'show', :id => tag.id %>.
+    <% end %>
+  <% end %>
+  <hr>
+  <%= yield %>
+  <hr>
+  Produced by ASIAN (2010)
+</body>
+</html>

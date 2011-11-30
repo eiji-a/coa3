@@ -1,0 +1,24 @@
+
+<table width="100%">
+  <tr>
+    <th width="30px">操作</th>
+    <th>タイトル</th>
+    <th width="120px">フォルダ</th>
+    <th width="80px">MIMEタイプ</th>
+    <th width="40px">サイズ</th>
+  </tr>
+
+  <% @contents.each do |content| %>
+  <tr>
+    <td>
+      <%= link_to (image_tag 'delete12.gif'), content,
+	  :confirm => '本当に削除してよいですか?', :method => :delete %>
+    </td>
+    <td><%= link_to h(content.title), content %></td>
+    <td><%= link_to h(if content.folder != nil then content.folder.name else '' end), content.folder %></td>
+    <td><%=h content.mimetype %></td>
+    <td align="right"><%=h content.size_with_unit %></td>
+  </tr>
+  <% end %>
+</table>
+

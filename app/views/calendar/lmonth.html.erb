@@ -1,0 +1,33 @@
+
+
+<table border="0" width="100%">
+  <tr>
+    <td align="left" width="80px" valign="bottom">
+      <%= link_to (image_tag 'larrow12.gif'), :action => 'lmonth', :id => @prevm %>
+      <%= link_to (image_tag 'rarrow12.gif'), :action => 'lmonth', :id => @nextm %>
+    </td>
+    <td align="right" width="250px" valign="bottom">
+      <span class="month_year"><%= @year %>.</span>
+    </td>
+    <td align="center" width="80px" valign="botton">
+      <span class="month_month"><%= @month %></span>
+    </td>
+    <td align="left" valign="bottom">
+      <span class="month_name"><%= @month_name %></span>
+    </td>
+  </tr>
+</table>
+
+<table border="1" class="tableline" width="100%" cellpadding="0">
+  <tr>
+    <th width="20px">日</th>
+    <th width="20px">曜日</th>
+    <th>予定/記録</th>
+  </tr>
+<% @days.each do |d| %>
+  <tr>
+    <%= render(:partial => 'lmonth_schedule', :locals => {:day => d}) %>
+  </tr>
+<% end %>
+</table>
+<br />

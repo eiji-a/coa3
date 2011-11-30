@@ -1,0 +1,23 @@
+<% form_for(@tag) do |f| %>
+  <%= f.error_messages %>
+
+  <%= f.hidden_field :user_id, :value => session[:user_id] %>
+
+  <table width="100%">
+    <tr>
+      <th width="100px">タグ名</th>
+      <td><%= f.text_field :name %></td>
+    </tr>
+    <tr>
+      <th>公開設定</th>
+      <td>
+        <%= f.select :disclosure_id, Disclosure.list(session[:user_id]) %>
+      </td>
+    </tr>
+  </table>
+
+  <p>
+    <%= f.submit '更新' %>
+  </p>
+<% end %>
+

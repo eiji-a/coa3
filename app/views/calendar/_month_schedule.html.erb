@@ -1,0 +1,42 @@
+<table class="month_day_num" border="0" width="100%" cellpadding="0" cellspacing="0">
+  <tr>
+    <td>
+      <% day.holiday.each do |h| %>
+      <span class="holiday">
+        <%= link_to h.subject, :controller => 'contents', :action => 'show',
+        :id => h.content.id %>
+      </span>
+      <% end %>
+    </td>
+    <td align="right">
+      <% col = case wday
+               when 0 then 'holiday'
+               when 6 then 'saturday'
+               else 'weekday'
+               end %>
+      <% col = 'holiday' if day.holiday.size > 0 %>
+      <span class="<%= col %>">
+        <%= link_to day.day, :action => 'day', :id => day.to_s %>
+      </span>
+    </td>
+  </tr>
+</table>
+
+<table class="month_day" border="0" width="100%" cellpadding="0" cellspacing="0">
+  <% day.schedule.each do |s| %>
+  <tr>
+    <td valign="top" class="planmine_time">
+      <%= s.start_time %></td>
+    <td class="planmine">
+      <span class="<%= if s.content.disclosure.editable?(@login.id) then
+                         'mine'
+                       else
+                         'others'
+                       end %>">
+        <%= link_to s.subject, :controller => 'contents',
+        :action => 'show', :id => s.content.id %>
+      </span>
+    </td>
+  </tr>
+  <% end %>
+</table>

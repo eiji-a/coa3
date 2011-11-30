@@ -1,0 +1,33 @@
+
+<div class="gtd_project">
+  <div class="gtd_desc">
+    <%= @project.description %><br />
+  </div>
+
+  <div class="actions">
+    <p>
+      <b>行動: </b>
+      <span class="subcommand">
+	<%= link_to '追加', :controller => 'contents', :action => 'new',
+          :parent_id => @project.id %>
+      </span><br />
+      <% @actions.each do |ac| %>
+      <%= link_to ac.title, :controller => 'contents', :action => 'show', :id => ac.id %><br />
+      <% end %>
+    </p>
+  </div>
+  
+  <div class='attached'>
+    <p>
+      <b>添付: </b>
+      <span class="subcommand">
+	<%= link_to '追加', :controller => 'contents', :action => 'new',
+          :parent_id => @project.id %>
+      </span><br />
+      <% @attached.each do |at| %>
+      <%= link_to at.title, at %><br />
+      <% end %>
+    </p>
+  </div>
+</div>
+

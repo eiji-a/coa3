@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <% title = if @title != nil then @title else controller.action_name end %>
+  <title>COA3: <%= title %></title>
+  <!--- <%= stylesheet_link_tag 'scaffold', 'coa' %> --->
+  <%= stylesheet_link_tag 'coa', :media => 'all' %>
+</head>
+<body>
+  <div id="page">
+    <div id="header">
+      <table border="0" width="100%">
+	<tr>
+	  <td width="150px">COA3</td>
+          <td><span class="title"><%= title %></span></td>
+	  <td align="right">
+	    <% form_for :search,
+	       :url => {:controller => 'contents', :action => 'search'} do |form| %>
+	    <%= form.text_field 'condition', :size => 20 %>
+	    <%= submit_tag '検索' %>
+	    <% end %>
+	  </td>
+	</tr>
+      </table>
+    </div>
+    <% if @login %>
+    <div id="navi">
+      <b><%= link_to @login.name, :controller => 'profiles' %></b> さん<br />
+      <br />
+      <b>
+      <%= link_to "#{@_day.year}年", :controller => 'calendar',
+       :action => 'year', :id => @_year %>
+      <%= link_to "#{@_day.month}月", :controller => 'calendar',
+       :action => 'month', :id => (@_year * 100 + @_month) %>
+      <%= link_to "#{@_day.day}日", :controller => 'calendar',
+       :action => 'day',
+       :id => (@_day.year * 10000 + @_day.month * 100 + @_day.day) %>
+      (<%= Calendar::WDAY[@_day.wday] %>)
+      </b>
+
+      <br />
+      <span class="holiday">
+        <% @_day.holiday.each do |h| %>
+        <%= h.subject %><br />
+        <% end %>
+      </span>
+      <div class="navi_schedule">
+        <% if @_day.schedule.size == 0 %>
+        本日の予定はありません。
+        <% else %>
+        <table border="0" width="100%">
+          <% @_day.schedule.each do |s| %>
+          <tr>
+            <% cl = if s.content.sharable?(@login.id) then ''
+               else 'others' end %>
+            <td valign="top" width="20px"><%= s.start_time %></td>
+            <td>
+              <b><span class="<%= cl %>">
+                <%= link_to s.subject, :controller => 'contents',
+                :action => 'show', :id => s.content %>
+              </span></b>
+              <br />
+              (<%= s.place %>)
+            </td>
+          </tr>
+          <% end %>
+        </table>
+        <% end %>
+      </div>
+      <hr>
+        <b>
+        <%= link_to 'ログアウト', :controller => 'login', :action => 'logout' %><br />
+        <%= link_to 'コンテンツ作成', :controller => 'contents', :action => 'new' %><br />
+        <%= link_to 'タグ管理', :controller => 'tags' %><br />
+        <%= link_to '公開設定', :controller => 'disclosures' %><br />
+        </b>
+	<% if @admin %>
+	  <% @admin.each do |admin| %>
+	    <%= link_to admin[0], :controller => admin[1], :action => admin[2] %><br />
+	  <% end %>
+	<% end %>
+        </b>
+      <hr>
+
+      <b><%= link_to 'GTDプロジェクト', :controller => 'gtd_projects' %>:</b>
+      <br />
+      <table border="0">
+      <% @gtdprojects.each do |prj| %>
+        <tr>
+          <td>
+            <span class="menu_folder">
+              <%= link_to prj.title, :controller => 'gtd_projects',
+                :action => 'show', :id => prj.id %>
+              (<%= prj.actions.size %>)
+            </span>
+          </td>
+        </tr>
+      <% end %>
+      </table>
+        
+      <hr>
+
+      <b><%= link_to 'フォルダ', :controller => 'folders' %>:</b>
+      <br />
+      <% if @folders_m != nil %>
+      <table border="0">
+      <% @folders_m.each do |fol| %>
+        <tr>
+          <td>
+            <% if @folder != nil && fol.id == @folder.id %>
+            <%= image_tag('rarrow8.gif') %>
+            <% end %>
+          </td>
+          <td>
+            <span class="menu_folder">
+              <span class="<%= if fol.editable?(@login.id) then 'mine'
+                               else 'others' end %>">
+                <%= link_to fol.name, fol %>
+                (<%= fol.contents.size %>)
+              </span>
+            </span>
+          </td>
+        </tr>
+      <% end %>
+      </table>
+      <% end %>
+
+      <hr>
+
+      <b><%= link_to 'タグ', :controller => 'tags' %>:</b>
+      <br />
+      <% if @tags != nil %>
+      <% @tags.each do |tag| %>
+      <span class="menu_folder">
+        <%= link_to tag.first_name, :controller => 'tags',
+        :action => 'show', :id => tag.id %>.
+      </span>
+      <% end %>
+      <% end %>
+
+    </div>
+    <% end %>
+    <div id="main">
+      <p style="color: blue"><%= flash[:notice] %></p>
+        <%= yield %>
+      <p>
+      <div id="footer">
+        Produced by ASIAN (2010)
+      </div>
+    </div>
+  </div>
+</body>
+</html>
